@@ -2,7 +2,7 @@
 
 ## **Architecture**
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7a271d74-3469-4882-aafc-c053f8dce81f/Untitled.png)
+![architecture](architecture.png)
 
 - A [`scheduler`](https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/scheduler.html), which handles both triggering scheduled workflows, and submitting [Tasks](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/tasks.html) to the executor to run.
 - An [`executor`](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/index.html), which handles running tasks. In the default Airflow installation, this runs everything *inside* the scheduler, but most production-suitable executors actually push task execution out to *workers*.
