@@ -2,7 +2,7 @@
 
 I maintain my notes in this repository.
 
-- tech and framework
+- tech-framework-language
   - programming-languages
 - os-installation
 - interview-preparation
