@@ -4,7 +4,7 @@
 
 - By default things are passed by value in cpp not reference, use pointer of object to pass by reference
 
-### `**new**`
+### **`new`**
 
 returns **`pointer`** to newly created object. 
 
@@ -31,7 +31,7 @@ cout<<nArray[1]->startTime<<endl;
 
 ```
 
-### `array`
+### **`array`**
 
 ```cpp
 // creates an array of five int values, each initialized with a value of zero
@@ -42,13 +42,13 @@ int foo [5] = { 16, 2, 77, 40, 12071 };
 sizeof(freqMap) / sizeof(int)
 ```
 
-### `[**#include <cstdlib>**](https://cplusplus.com/reference/cstdlib/)`
+### [#include \<cstdlib\>](https://cplusplus.com/reference/cstdlib/)
 
 This header defines several general purpose functions, including dynamic memory management, random number generation, communication with the environment, integer arithmetics, searching, sorting and converting.
 
 - `int abs (int n);`
 
-### `[#include <algorithm>](https://cplusplus.com/reference/algorithm/)`
+### [#include \<algorithm\>](https://cplusplus.com/reference/algorithm/)
 
 - `fill_n`
     
@@ -225,9 +225,9 @@ This header defines several general purpose functions, including dynamic memory 
     A [pair](https://www.cplusplus.com/pair) object whose elements first and second are set to x and y respectively.
     
 
-### `[#include <stack>](https://cplusplus.com/reference/stack/stack/) // std::stack`
+### [#include \<stack\>](https://cplusplus.com/reference/stack/stack/) // std::stack
 
-- **[`(constructor)`](https://cplusplus.com/reference/stack/stack/stack/)** Construct stack (public member function)
+- **[`constructor`](https://cplusplus.com/reference/stack/stack/stack/)** Construct stack (public member function)
     
     ```cpp
     // constructing stacks
@@ -325,7 +325,7 @@ This header defines several general purpose functions, including dynamic memory 
     ```
     
 - `push(Element e)`
-- `**top()**` - Returns a constant reference to the *top element* in the [priority_queue](https://www.cplusplus.com/priority_queue).
+- **`top()`** - Returns a constant reference to the *top element* in the [priority_queue](https://www.cplusplus.com/priority_queue).
 - `pop()`
 - `size()`
 - `empty()`
