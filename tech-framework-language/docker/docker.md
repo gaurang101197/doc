@@ -23,6 +23,9 @@ sudo service docker status
 sudo groupadd -g 135 docker
 sudo usermod -aG docker $USER
 newgrp docker
+
+# If above command don't resolve the issue, try running below command
+sudo chmod 666 /var/run/docker.sock
 ```
 
 

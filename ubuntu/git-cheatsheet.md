@@ -3,6 +3,7 @@
 ```bash
 git cheery-pick commit-hash
 
+# move head to specific commit
 # This will destroy any local modifications.
 # Don't do it if you have uncommitted work you want to keep.
 git reset --hard commit-hash
@@ -49,6 +50,9 @@ git reset --hard HEAD^
 git reset --hard HEAD~n
 # If you want to "uncommit" the commits, but keep the changes around for reworking
 git reset HEAD^ 
+
+# revert specific commit
+git revert commit-id
 ```
 
 
