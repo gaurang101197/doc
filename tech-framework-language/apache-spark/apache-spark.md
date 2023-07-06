@@ -357,21 +357,22 @@ Persist/cache the intermediate data on off-heap: `rdd.persist(StorageLevel.OFF_H
 
 ### Memory
 
-| spark.driver.maxResultSize | Limit of total size of serialized results of all partitions for Spark action (e.g. collect) in bytes. Jobs will be aborted if the total size is above this limit. Setting a proper limit can protect the driver from out-of-memory errors. |
+| | |
 | --- | --- |
+| spark.driver.maxResultSize | Limit of total size of serialized results of all partitions for Spark action (e.g. collect) in bytes. Jobs will be aborted if the total size is above this limit. Setting a proper limit can protect the driver from out-of-memory errors. |
 | spark.memory.offheap.enabled=true & spark.memory.offHeap.size=2G | Enable off-heap memory usage in driver and executor. |
 | spark.memory.fraction | Fraction of (Heap memory(spark.executor.memory/spark.driver.memory) - reserved memory(300MB)) used for execution and storage. |
 | spark.memory.storageFraction | Amount of storage memory immune to eviction, expressed as a fraction of the size of the region set aside by spark.memory.fraction. The higher this is, the less working memory may be available to execution and tasks may spill to disk more often. Leaving this at the default value is recommended. |
-| Executor Memory |  |
+| | |
+| **Executor Memory** |  |
 | spark.executor.memory | Amount of heap-memory to use per executor process. |
 | spark.executor.memoryOverheadFactor | 0.10, Fraction of executor memory to be allocated as additional non-heap memory per executor process. |
-| spark.executor.memoryOverhead | Amount of additional non-heap memory to be allocated per executor process. This is memory that accounts for things like VM overheads, interned strings, other native overheads, etc. 
-executorMemory * spark.executor.memoryOverheadFactor, with minimum of 384 |
-| Driver Memory |  |
+| spark.executor.memoryOverhead | Amount of additional non-heap memory to be allocated per executor process. This is memory that accounts for things like VM overheads, interned strings, other native overheads, etc. <br> executorMemory * spark.executor.memoryOverheadFactor, with minimum of 384 |
+| | |
+| **Driver Memory** |  |
 | spark.driver.memory | Amount of heap-memory to use for the driver process, i.e. where SparkContext is initialized. |
 | spark.driver.memoryOverheadFactor | 0.10, Fraction of driver memory to be allocated as additional non-heap memory per driver process. |
-| spark.driver.memoryOverhead | Amount of non-heap memory to be allocated per driver process in cluster mode.
-driverMemory * spark.driver.memoryOverheadFactor, with minimum of 384. |
+| spark.driver.memoryOverhead | Amount of non-heap memory to be allocated per driver process in cluster mode. </br> driverMemory * spark.driver.memoryOverheadFactor, with minimum of 384. |
 
 ### Resources
 
