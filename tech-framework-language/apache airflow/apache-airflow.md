@@ -30,6 +30,12 @@ To pass data between tasks you have three options:
 2. Uploading and downloading large files from a storage service (either one you run, or part of a public cloud)
 3. TaskFlow API automatically passes data between tasks via implicit [XComs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/xcoms.html)
 
-# Refrences
+
+## Issues/Errors and Resolutions
+
+> [Airflow DAG fails when PythonOperator with error "Negsignal.SIGKILL"](https://stackoverflow.com/questions/69231797/airflow-dag-fails-when-pythonoperator-with-error-negsignal-sigkill)
+- Can be issue of memory, try increasing the memory of your pod.
+
+## Refrences
 
 [Core Concepts — Airflow Documentation](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/index.html)
