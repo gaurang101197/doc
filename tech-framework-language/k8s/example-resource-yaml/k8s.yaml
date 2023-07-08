@@ -1,0 +1,139 @@
+---
+# Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app.kubernetes.io/name: proxy
+spec:
+  containers:
+  - name: nginx
+    image: nginx:stable
+    ports:
+    - containerPort: 8080
+      # Naming a port gives flexibility, changing port without breaking any service which uses port name.
+      # Read more at: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+      name: http-web-svc
+    resources:
+      limits:
+        memory: 512Mi
+        cpu: "1"
+      requests:
+        memory: 256Mi
+        cpu: "0.2"
+    env:
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+
+
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+
+
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Used as prefix of Pods name created by this deployment.
+  name: nginx-deployment
+  # namespace: development
+  # Labels of deployment object
+  labels:
+    app: nginx
+spec:
+  # optional, defaults to 1.
+  # If a HorizontalPodAutoscaler is managing scaling for a Deployment, don't set it.
+  replicas: 2
+  # specifies a label selector for the Pods targeted by this Deployment.
+  # If you have multiple controllers that have overlapping selectors, the controllers will fight with each other and won't behave correctly.
+  selector:
+    matchLabels:
+      # must match .spec.template.metadata.labels
+      app.kubernetes.io/name: proxy
+  # .spec.template is a Pod template(https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates) except it is nested and does not have an apiVersion or kind
+  template:
+    metadata:
+      # Pods are labeled with this
+      labels:
+        app.kubernetes.io/name: proxy
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:stable
+        ports:
+        - containerPort: 80
+          name: http-web-svc
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  # Optional [ClusterIP(default), NodePort, LoadBalancer, ExternalName]
+  type: ClusterIP
+  # targets Pod with given label
+  selector:
+    app.kubernetes.io/name: proxy
+  ports:
+  - name: http
+    protocol: TCP
+    # incoming port
+    port: 80
+    # This works even if there is a mixture of Pods in the Service using a single configured name, with the same network protocol available via different port numbers. You can change the port numbers that Pods expose in the next version of your backend software, without breaking clients. 
+    # Read more at: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    # By default, the `targetPort` is set to the same value as the `port` field.
+    targetPort: http-web-svc
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: http-web-svc
+
+
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  # by convention, use the name of the Service as a prefix for the name of the EndpointSlice
+  name: my-service-1
+  labels:
+    # You link an EndpointSlice to a Service by setting the kubernetes.io/service-name label on that EndpointSlice.
+    # Set its value to match the name of the Service
+    kubernetes.io/service-name: my-service
+    # Avoid using the reserved value "controller", which identifies EndpointSlices managed by Kubernetes' own control plane.
+    endpointslice.kubernetes.io/managed-by: cluster-admins
+# Each EndpointSlice object represents a specific IP address type. If you have a Service that is available via IPv4 and IPv6, there will be at least two EndpointSlice objects (one for IPv4, and one for IPv6).
+addressType: IPv4
+ports:
+  - name: ''
+    appProtocol: http
+    protocol: TCP
+    port: 9376
+endpoints:
+  # The endpoint IP addresses cannot be the cluster IPs of other Kubernetes Services, because kube-proxy doesn't support virtual IPs as a destination.
+  # By default, max you can provide 100 endpoints.
+  - addresses:
+      - "10.4.5.6"
+      - "10.1.2.3"
