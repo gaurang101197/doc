@@ -87,8 +87,11 @@ k describe pod pod-name -n namespace
 
 k exec -it pod-name -- /bin/bash
 
-k logs pod-name -f --tail=10 --timestamps
 # -c, to specify container name if you have multiple container within pod
+k logs pod-name -f --tail=10 --timestamps
+
+# Cleans up any failed pods in your-namespace
+kubectl delete pods --field-selector status.phase=Failed -n <your-namespace>
 ```
 
 ## References
