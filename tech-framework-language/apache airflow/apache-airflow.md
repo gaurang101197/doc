@@ -30,6 +30,33 @@ To pass data between tasks you have three options:
 2. Uploading and downloading large files from a storage service (either one you run, or part of a public cloud)
 3. TaskFlow API automatically passes data between tasks via implicit [XComs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/xcoms.html)
 
+### [Catchup](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html#catchup)
+The scheduler, by default, will kick off a DAG Run for any data interval that has not been run since the last data interval. This concept is called Catchup.
+```python
+"""
+Code that goes along with the Airflow tutorial located at:
+https://github.com/apache/airflow/blob/main/airflow/example_dags/tutorial.py
+"""
+from airflow.models.dag import DAG
+from airflow.operators.bash import BashOperator
+
+import datetime
+import pendulum
+
+dag = DAG(
+    "tutorial",
+    default_args={
+        "depends_on_past": True,
+        "retries": 1,
+        "retry_delay": datetime.timedelta(minutes=3),
+    },
+    start_date=pendulum.datetime(2015, 12, 1, tz="UTC"),
+    description="A simple tutorial DAG",
+    schedule="@daily",
+    catchup=False,
+)
+```
+In the example above, if the DAG is picked up by the scheduler daemon on 2016-01-02 at 6 AM, (or from the command line), a single DAG Run will be created with a data between 2016-01-01 and 2016-01-02, and the next one will be created just after midnight on the morning of 2016-01-03 with a data interval between 2016-01-02 and 2016-01-03. If the `dag.catchup` value had been `True` instead, the scheduler would have created a DAG Run for each completed interval between 2015-12-01 and 2016-01-02 (but not yet one for 2016-01-02, as that interval hasn’t completed) and the scheduler will execute them sequentially.
 
 ## Issues/Errors and Resolutions
 
