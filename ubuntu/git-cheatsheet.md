@@ -53,6 +53,9 @@ git reset HEAD^
 
 # revert specific commit
 git revert commit-id
+
+# To untrack your directory and all files under it without actually deleting them
+git rm -r --cached <your directory>
 ```
 
 
