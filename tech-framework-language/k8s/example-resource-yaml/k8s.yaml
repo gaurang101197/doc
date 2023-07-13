@@ -86,7 +86,7 @@ spec:
 
 
 ---
-# Service
+# ClusterIP Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -94,13 +94,15 @@ metadata:
 spec:
   # Optional [ClusterIP(default), NodePort, LoadBalancer, ExternalName]
   type: ClusterIP
+  # If you already have an existing DNS entry that you wish to reuse, or legacy systems that are configured for a specific IP address and difficult to re-configure.
+  # clusterIP: 10.122.31.23
   # targets Pod with given label
   selector:
     app.kubernetes.io/name: proxy
   ports:
   - name: http
     protocol: TCP
-    # incoming port
+    # incoming port or service port which is used with service name in url
     port: 80
     # This works even if there is a mixture of Pods in the Service using a single configured name, with the same network protocol available via different port numbers. You can change the port numbers that Pods expose in the next version of your backend software, without breaking clients. 
     # Read more at: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
@@ -137,3 +139,26 @@ endpoints:
   - addresses:
       - "10.4.5.6"
       - "10.1.2.3"
+
+---
+# Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  # Ingress frequently uses annotations to configure some options depending on the Ingress controller, an example of which is the rewrite-target annotation. Different Ingress controllers (https://kubernetes.io/docs/concepts/services-networking/ingress-controllers) support different annotations. Review the documentation for your choice of Ingress controller to learn which annotations are supported.
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx-example
+  rules:
+  - http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              # number: 80
+              name: http
