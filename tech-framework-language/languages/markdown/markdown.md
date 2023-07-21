@@ -82,6 +82,11 @@ Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 - [ ] Update the website
 - [ ] Contact the media
 
+## [Reference-style links](https://stackoverflow.com/a/26196818/13580210)
+[link-variable]: https://google.com
+
+[link-variable]
+
 ## References
 
 1. <https://www.markdownguide.org/basic-syntax/>
