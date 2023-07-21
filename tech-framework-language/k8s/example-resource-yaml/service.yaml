@@ -1,3 +1,25 @@
+# https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/
+
+--- 
+# ClusterIP
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: proxy
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http-web-svc
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: http-web-svc
+
 ---
 # NodePort
 apiVersion: v1
@@ -10,7 +32,9 @@ spec:
     app.kubernetes.io/name: MyApp
   ports:
       # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+      # The port that will be exposed by this service.
     - port: 80
+      # Number or name of the port to access on the pods targeted by the service.
       targetPort: 80
       # Optional field
       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767, --service-node-port-range flag)
@@ -29,9 +53,22 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 9376
+  # the IP address of the service and is usually assigned randomly if not specified.
   clusterIP: 10.0.171.239
   type: LoadBalancer
 status:
   loadBalancer:
     ingress:
     - ip: 192.0.2.127
+
+
+---
+# ExternalName
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  # namespace: development
+spec:
+  type: ExternalName
+  externalName: my.nginx.example.com

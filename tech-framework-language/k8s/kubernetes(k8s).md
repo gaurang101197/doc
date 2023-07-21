@@ -91,9 +91,11 @@ Exposes the Service on each Node's IP at a static port (the NodePort). Every nod
 
 - Exposes the Service externally using an external load balancer. Kubernetes does not directly offer a load balancing component; you must provide one, or you can integrate your Kubernetes cluster with a cloud provider.
 - Traffic from the external load balancer is directed at the backend Pods. The cloud provider decides how it is load balanced.
+- To implement a Service of `type: LoadBalancer`, Kubernetes typically starts off by making the changes that are equivalent to you requesting a Service of `type: NodePort`. The cloud-controller-manager component then configures the external load balancer to forward traffic to that assigned node port.
 
 #### 4. ExternalName
 
+Services of type ExternalName map a Service to a DNS name.  
 **TODO: Use case ?**
 
 ### [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
