@@ -10,7 +10,7 @@ worker machines which run Pods.
 
 #### 1. `kubelet`
 
-It makes sure that containers are running in a Pod. The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by Kubernetes.
+It makes sure that containers are running in a Pod. The kubelet takes a set of PodSpecs that are provided through various mechanisms (e.g. communicate directly with apiserver) and ensures that the containers described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by Kubernetes.
 
 #### 2. `kube-proxy`
 
@@ -18,7 +18,7 @@ kube-proxy is a network proxy, implementing part of the Kubernetes Service conce
 
 #### 3. `Container runtime`
 
-software that is responsible for running containers.
+software that is responsible for running containers. It enables the `kubelet` to create containers with engines. (e.g. containerd, CRI-O)
 
 ### `Control Plane`
 
@@ -30,7 +30,7 @@ The API server exposes an HTTP API that lets end users, different parts of your 
 
 #### 2. [`etcd`](https://etcd.io/)
 
-A distributed, reliable key-value store for all cluster data.
+A distributed, reliable open source key-value store. In k8s cluster, it stored the data about state of the cluster. Only apiserver can directly communicate with etcd.
 
 #### 3. `kube-scheduler`
 
@@ -38,7 +38,7 @@ selects a node for Pods to run on.
 
 #### 4. `kube-controller-manager`
 
-runs controller processes.
+The controller manager is a loop that runs continuously and checks the status of the cluster to make sure things are running properly. It runs controller processes.
 
 - `Node controller`: Responsible for noticing and responding when nodes go down.
 - `Job controller`: Watches for Job objects that represent one-off tasks, then creates Pods to run those tasks to completion.
@@ -106,42 +106,36 @@ Ingress exposes HTTP and HTTPS routes from outside the cluster to services withi
 
 In order for the Ingress resource to work, the cluster must have an ingress controller running.
 
-## kubectl
+### [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
 
-### cheat sheet
+A DaemonSet ensures that all (or some) Nodes run a copy of a Pod.
+If the new Pod cannot fit on the node, the default scheduler may preempt (evict) some of the existing Pods based on the priority of the new Pod.
+
+As nodes are added to the cluster, Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
+
+Some typical uses of a DaemonSet are:
+
+- running a cluster storage daemon on every node
+- running a logs collection daemon on every node
+- running a node monitoring daemon on every node
+
+### DaemonSet vs Deployment
+
+Use a Deployment for stateless services, like frontends, where scaling up and down the number of replicas and rolling out updates are more important than controlling exactly which host the Pod runs on. Use a DaemonSet when it is important that a copy of a Pod always run on all or certain hosts, if the DaemonSet provides node-level functionality that allows other Pods to run correctly on that particular node.
+
+For example, network plugins often include a component that runs as a DaemonSet. The DaemonSet component makes sure that the node where it's running has working cluster networking.
+
+## Security
+
+### Scanning resource files (YAML) using [snyk-cli](https://docs.snyk.io/snyk-cli)
+
+snyk-cli installation: <https://docs.snyk.io/snyk-cli/install-the-snyk-cli>
 
 ```bash
-# k=kubectl
--A options for
-k cluster-info
-
-# -A = all namespace
-# -n namespace_name
-k get pods 
-# k get pods -o wide => get ip address of pod
-k get services
-k get nodes
-k get ns/namespace
-k get deployments
-k get rs/replicaSet
-
-k apply -f file_name.yaml
-k delete -f file_name.yaml
-
-k delete pod pod-name -n namespace
-
-# useful to pod event logs
-k describe pod pod-name -n namespace
-
-k exec -it pod-name -- /bin/bash
-
-# -c, to specify container name if you have multiple container within pod
-k logs pod-name -f --tail=10 --timestamps
-
-# Cleans up any failed pods in your-namespace
-kubectl delete pods --field-selector status.phase=Failed -n <your-namespace>
+curl --compressed https://static.snyk.io/cli/latest/snyk-macos -o snyk
+chmod +x ./snyk
+mv ./snyk /usr/local/bin/
 ```
 
-## References
-
-1.
+Scanning resource file
+`snyk iac test tech-framework-language/k8s/resource-yaml/k8s.yaml`
