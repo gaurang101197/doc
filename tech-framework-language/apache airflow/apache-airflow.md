@@ -31,6 +31,19 @@ To pass data between tasks you have three options:
 3. TaskFlow API automatically passes data between tasks via implicit [XComs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/xcoms.html)
 
 
+## D2 (Day to Day)
+
+### [backfill](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html#backfill)
+
+```bash
+airflow dags backfill \
+    --start-date 2021-01-23T00:00:00 \
+    --end-date 2021-01-23T00:00:00 \
+    dag_id
+```
+Note: start and date both are inclusive. Full list of options can be found [here](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#backfill)
+
+
 ## Issues/Errors and Resolutions
 
 > [Airflow DAG fails when PythonOperator with error "Negsignal.SIGKILL"](https://stackoverflow.com/questions/69231797/airflow-dag-fails-when-pythonoperator-with-error-negsignal-sigkill)
