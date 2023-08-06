@@ -1,10 +1,11 @@
-# Kubernetes (k8s)
+# kubectl
 
-## kubectl
-### cheat sheet
+## cheat sheet
+
 ```bash
 # k=kubectl
--A options for
+
+k api-resources
 k cluster-info
 
 # -A = all namespace
@@ -13,8 +14,9 @@ k get pods
 # k get pods -o wide => get ip address of pod
 k get services
 k get nodes
-k get namespace/ns
+k get ns/namespace
 k get deployments
+k get rs/replicaSet
 
 k apply -f file_name.yaml
 k delete -f file_name.yaml
@@ -26,9 +28,9 @@ k describe pod pod-name -n namespace
 
 k exec -it pod-name -- /bin/bash
 
-k logs pod-name -f --tail=10 --timestamps
 # -c, to specify container name if you have multiple container within pod
-```
+k logs pod-name -f --tail=10 --timestamps
 
-## References
-1. 
+# Cleans up any failed pods in your-namespace
+kubectl delete pods --field-selector status.phase=Failed -n <your-namespace>
+```

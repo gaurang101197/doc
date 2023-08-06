@@ -7,6 +7,7 @@ git cheery-pick commit-hash
 # This will destroy any local modifications.
 # Don't do it if you have uncommitted work you want to keep.
 git reset --hard commit-hash
+
 # Alternatively, if there's work to keep:
 git stash
 git reset --hard commit-hash
@@ -53,6 +54,23 @@ git reset HEAD^
 
 # revert specific commit
 git revert commit-id
+```
+
+## [Remove a file from a Git repository without deleting it from the local filesystem](https://stackoverflow.com/questions/1143796/remove-a-file-from-a-git-repository-without-deleting-it-from-the-local-filesyste)
+```bash
+git rm -r --cached <your directory>
+```
+
+## [How do I find and restore a deleted file in a Git repository?](https://stackoverflow.com/questions/953481/how-do-i-find-and-restore-a-deleted-file-in-a-git-repository)
+```bash
+Find the last commit that affected the given path. As the file isn't in the HEAD commit, that previous commit must have deleted it.
+git rev-list -n 1 HEAD -- <file_path>
+
+Then checkout the version at the commit before, using the caret (^) symbol:
+git checkout <deleting_commit>^ -- <file_path>
+
+Or in one command, if $file is the file in question.
+git checkout $(git rev-list -n 1 HEAD -- "$file")^ -- "$file"
 ```
 
 
