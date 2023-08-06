@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  devcontainer:
+    build:
+      context: ./.devcontainer
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      # mounting docker.sock file to allow docker-out-of-docker setup
+      - /var/run/docker.sock:/var/run/docker.sock
+      # mounting current directory for development
+      - ./:/opt/airflow/
+      # mounting ssh to allow code pushing from the container
+      - ${HOME}/.ssh:/home/airflow/.ssh
+      # mounting aws credentials
+      - ${HOME}/.aws:/home/airflow/.aws
+      # adding certificate to avoid ssl issues while pulling pre-commit hooks
+      - /usr/local/share/ca-certificates/:/usr/local/share/ca-certificates/
+      # Adding user's git config
+      - ${HOME}/.gitconfig:/home/airflow/.gitconfig:ro
+    # overwriting entrypoint and command to use dev container setup.
+    entrypoint: [ "/bin/bash", "-c" ]
+    command: [ "while sleep 1000; do :; done" ]
+    user: airflow
+
+volumes:
+  postgres-db-volume:

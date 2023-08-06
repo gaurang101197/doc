@@ -80,6 +80,19 @@ In the example above, if the DAG is picked up by the scheduler daemon on 2016-01
 > The maximum number of active DAG runs per DAG. The scheduler will not create more DAG runs if it reaches the limit. This is configurable at the DAG level with max_active_runs, which is defaulted as `max_active_runs_per_dag`.
 
 
+## D2 (Day to Day)
+
+### [backfill](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html#backfill)
+
+```bash
+airflow dags backfill \
+    --start-date 2021-01-23T00:00:00 \
+    --end-date 2021-01-23T00:00:00 \
+    dag_id
+```
+Note: start and date both are inclusive. Full list of options can be found [here](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#backfill)
+
+
 ## Issues/Errors and Resolutions
 
 > [Airflow DAG fails when PythonOperator with error "Negsignal.SIGKILL"](https://stackoverflow.com/questions/69231797/airflow-dag-fails-when-pythonoperator-with-error-negsignal-sigkill)

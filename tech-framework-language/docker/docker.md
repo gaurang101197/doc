@@ -51,6 +51,44 @@ https://github.com/microsoft/WSL/issues/6404#issuecomment-810538101
 - `entrypoint`: shell script which is run on container start up
 - `command`: is passed as argument to `entrypoint`
 
+### Installation
+
+?
+
+### cheatsheet
+
+| command option | Description |
+| --- | --- |
+| build |              Build or rebuild services 
+| config |             Validate and view the Compose file 
+| create |             Create services 
+| down |               Stop and remove resources 
+| events |             Receive real time events from containers 
+| exec |               Execute a command in a running container 
+| help |               Get help on a command 
+| images |             List images 
+| kill |               Kill containers 
+| logs |               View output from containers 
+| pause |              Pause services 
+| port |               Print the public port for a port binding 
+| ps |                 List containers 
+| pull |               Pull service images 
+| push |               Push service images 
+| restart |            Restart services 
+| rm |                 Remove stopped containers 
+| run |                Run a one-off command 
+| scale |              Set number of containers for a service 
+| start |              Start services 
+| stop |               Stop services 
+| top |                Display the running processes 
+| unpause |            Unpause services 
+| up |                 Create and start containers 
+| version |            Show version information and quit 
+
+```bash
+docker-compose -f docker-compose.yaml config
+```
+
 ## docker cheatsheet
 
 ```bash
