@@ -125,6 +125,51 @@ Use a Deployment for stateless services, like frontends, where scaling up and do
 
 For example, network plugins often include a component that runs as a DaemonSet. The DaemonSet component makes sure that the node where it's running has working cluster networking.
 
+### [Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+
+
+### [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/)
+
+A ConfigMap allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.  
+
+For example, imagine that you are developing an application that you can run on your own computer (for development) and in the cloud (to handle real traffic). You write the code to look in an environment variable named `DATABASE_HOST`. Locally, you set that variable to `localhost`. In the cloud, you set it to refer to a Kubernetes Service that exposes the database component to your cluster. This lets you fetch a container image running in the cloud and debug the exact same code locally if needed.  
+
+**A ConfigMap is not designed to hold large chunks of data. The data stored in a ConfigMap cannot exceed 1 MiB.** If you need to store settings that are larger than this limit, you may want to consider mounting a volume or use a separate database or file service.
+
+***Note:*** ConfigMap does not provide secrecy or encryption. If the data you want to store are confidential, use a [Secret](#secret) rather than a ConfigMap, or use additional (third party) tools to keep your data private.
+
+There are four different ways that you can use a ConfigMap to configure a container inside a Pod:
+
+1. Inside a container command and args
+2. Environment variables for a container
+    1. ConfigMaps consumed as environment variables are not updated automatically and require a pod restart.
+3. Add a file in read-only volume, for the application to read
+	1. When a ConfigMap consumed in a volume is updated, projected keys are **eventually** updated as well.
+4. Write code to run inside the Pod that uses the Kubernetes API to read a ConfigMap
+
+These different methods lend themselves to different ways of modeling the data being consumed. For the first three methods, the kubelet uses the data from the ConfigMap when it launches container(s) for a Pod.
+
+The fourth method means you have to write code to read the ConfigMap and its data. However, because you're using the Kubernetes API directly, your application can subscribe to get updates whenever the ConfigMap changes, and react when that happens. By accessing the Kubernetes API directly, this technique also lets you access a ConfigMap in a different namespace.
+
+A ConfigMap is an API object that lets you store configuration for other objects to use. Unlike most Kubernetes objects that have a `spec`, a ConfigMap has `data` and `binaryData` fields. These fields accept key-value pairs as their values. Both the `data` field and the `binaryData` are optional. The data field is designed to contain UTF-8 strings while the binaryData field is designed to contain binary data as base64-encoded strings.
+
+Each key under the data or the binaryData field must consist of alphanumeric characters, `-`, `_` or `.`. The keys stored in data must not overlap with the keys in the binaryData field.
+
+Starting from v1.19, you can add an immutable field to a ConfigMap definition to create an immutable ConfigMap.
+
+[example-yaml](./resource-yaml/configMap.yaml)
+
+#### [Immutable ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/#configmap-immutable)
+
+The Kubernetes feature Immutable Secrets and ConfigMaps provides an option to set individual Secrets and ConfigMaps as immutable. For clusters that extensively use ConfigMaps (at least tens of thousands of unique ConfigMap to Pod mounts), preventing changes to their data has the following advantages:
+
+    - protects you from accidental (or unwanted) updates that could cause applications outages
+    - improves performance of your cluster by significantly reducing load on kube-apiserver, by closing watches for ConfigMaps marked as immutable.
+
+You can create an immutable ConfigMap by setting the `immutable` field to `true`.
+
+**Note:** Once a ConfigMap is marked as immutable, it is not possible to revert this change nor to mutate the contents of the data or the binaryData field. You can only delete and recreate the ConfigMap. Because existing Pods maintain a mount point to the deleted ConfigMap, it is recommended to recreate these pods.
+
 ## Security
 
 ### Scanning resource files (YAML) using [snyk-cli](https://docs.snyk.io/snyk-cli)
