@@ -11,7 +11,10 @@ k cluster-info
 # -A = all namespace
 # -n namespace_name
 k get pods 
-# k get pods -o wide => get ip address of pod
+# get ip address of pod
+k get pods -o wide
+# get all object of particular namespace
+k get all -n metric
 k get services
 k get nodes
 k get ns/namespace
@@ -33,4 +36,8 @@ k logs pod-name -f --tail=10 --timestamps
 
 # Cleans up any failed pods in your-namespace
 kubectl delete pods --field-selector status.phase=Failed -n <your-namespace>
+
+# Forward one or more local ports (sourcePort:targetPort) to a pod.
+# k port-forward type/name 8081:8080
+k port-forward service/kube-state-metrics 8081:8080 -n metric
 ```

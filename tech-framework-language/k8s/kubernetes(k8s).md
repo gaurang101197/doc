@@ -184,3 +184,7 @@ mv ./snyk /usr/local/bin/
 
 Scanning resource file
 `snyk iac test tech-framework-language/k8s/resource-yaml/k8s.yaml`
+
+## Monitoring
+
+Install [kube-state-metrics](https://artifacthub.io/packages/helm/prometheus-community/kube-state-metrics) helm chart to generate and expose cluster-level metrics.

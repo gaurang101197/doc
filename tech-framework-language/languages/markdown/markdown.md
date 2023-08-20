@@ -11,7 +11,7 @@ line 2.
 **Bold**  
 ***Bold and Italic***  
 `code`  
-~~strike trhough~~  
+~~strike through~~  
 ==very important words==  
 
 ## Quote
@@ -83,6 +83,7 @@ Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 - [ ] Contact the media
 
 ## [Reference-style links](https://stackoverflow.com/a/26196818/13580210)
+
 [link-variable]: https://google.com
 
 [link-variable]
