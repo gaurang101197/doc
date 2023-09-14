@@ -42,3 +42,20 @@ wget https://repo1.maven.org/maven2/org/apache/avro/avro-tools/1.11.2/avro-tools
 |  trevni_meta |  Dumps a Trevni file's metadata as JSON. |
 |trevni_random |  Create a Trevni file filled with random instances of a schema. |
 |trevni_tojson |  Dumps a Trevni file as JSON. |
+
+### cheat sheet
+
+```bash
+# extract n records
+java -jar avro-tools-1.11.2.jar cat --limit 1 input.avro output.avro
+
+# read avro as json
+# --pretty
+java -jar avro-tools-1.11.2.jar tojson data.avro
+
+# converting json to avro
+java -jar avro-tools-1.11.2.jar fromjson data.json --schema-file avro_schema.avsc
+
+# get schema from avro file
+java -jar avro-tools-1.11.2.jar getschema data.avro
+```
