@@ -1,6 +1,6 @@
 # Minikube
 
-## Installation
+## [Installation](https://minikube.sigs.k8s.io/docs/start/)
 
 ### MAC Intel
 
@@ -13,17 +13,9 @@ minikube update-check
 ### MAC M1/M2
 
 ```bash
-brew install qemu
-
-# For minikube service URLs to work, you need to start the socket_vmnet service 
-brew install socket_vmnet
-brew tap homebrew/services
-HOMEBREW=$(which brew) && sudo ${HOMEBREW} services start socket_vmnet
-
-brew install minikube
-# Start Minikube with the Qemu driver and socket_vmnet
-minikube start --driver qemu --network socket_vmnet
-
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-arm64
+sudo install minikube-darwin-arm64 /usr/local/bin/minikube
+minikube start --driver=docker
 ## Verify installation
 minikube update-check
 ```
