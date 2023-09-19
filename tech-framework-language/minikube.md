@@ -2,10 +2,28 @@
 
 ## Installation
 
-### MAC
+### MAC Intel
 
 ```bash
 brew install minikube
+## Verify installation
+minikube update-check
+```
+
+### MAC M1/M2
+
+```bash
+brew install qemu
+
+# For minikube service URLs to work, you need to start the socket_vmnet service 
+brew install socket_vmnet
+brew tap homebrew/services
+HOMEBREW=$(which brew) && sudo ${HOMEBREW} services start socket_vmnet
+
+brew install minikube
+# Start Minikube with the Qemu driver and socket_vmnet
+minikube start --driver qemu --network socket_vmnet
+
 ## Verify installation
 minikube update-check
 ```
