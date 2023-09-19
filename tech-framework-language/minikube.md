@@ -1,14 +1,17 @@
 # Minikube
 
-## installation
+## Installation
+
 ### MAC
+
 ```bash
-brew install minukube
+brew install minikube
 ## Verify installation
 minikube update-check
 ```
 
 ## cheat sheet
+
 ```
 Basic Commands:
   start            Starts a local Kubernetes cluster
