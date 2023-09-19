@@ -188,3 +188,15 @@ Scanning resource file
 ## Monitoring
 
 Install [kube-state-metrics](https://artifacthub.io/packages/helm/prometheus-community/kube-state-metrics) helm chart to generate and expose cluster-level metrics.
+
+```bash
+## install kube-state-metrics using helm
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install kube-state-metrics prometheus-community/kube-state-metrics -n metric
+
+## start port local port forwarding to k8s pod
+k port-forward svc/kube-state-metrics 8081:8080 -n metric
+```
+
+Access <http://localhost:8081/> in browser.
