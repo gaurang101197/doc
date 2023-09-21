@@ -39,14 +39,14 @@
 #                                Default: ''
 #
 # Feel free to modify this file to suit your needs.
----
+--
 version: '3'
 x-airflow-common:
   # In order to add custom dependencies or upgrade provider packages you can use your extended image.
   # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   &airflow-common
-  image: ${AIRFLOW_IMAGE_NAME:-adgear-docker.jfrog.io/adgear/hermes/hermes-airflow:2.5.3}
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.6.3}
   # build: .
   environment:
     &airflow-common-env
@@ -64,7 +64,7 @@ x-airflow-common:
     - ./dags:/opt/airflow/dags
     - ./plugins:/opt/airflow/plugins
     # mounting aws credentials
-    - ${HOME}/.aws:/home/airflow/.aws
+    # - ${HOME}/.aws:/home/airflow/.aws
   # changed default airflow user id to 1001. If you found that your devcontainer setup is not able to edit the files, one can check the local machine user's userid (echo $UID) and update here with that id.
   user: "${AIRFLOW_UID:-1001}:0"
   depends_on:
@@ -278,28 +278,27 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-  # below services are required by DAGs
-  emr:
-    image: davlum/localemr:v0.3.3
-    container_name: emr
-    environment:
-      - S3_ENDPOINT=http://s3:2000
-      - LOCALEMR_CONTAINER_NAME=emr
-    ports:
-      - "3000:3000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-
-  s3:
-    container_name: s3
-    image: davlum/ros3:latest
-    volumes:
-      - ~/.aws:/root/.aws
-    environment:
-      - ROS3_PATH_TO_ALLOWLIST=/opt/ros3/allowlist.txt
-      - AWS_DEFAULT_REGION=us-east-1
-    ports:
-      - "2000:2000"
+# [Optional] below services are required by DAGs
+  # emr:
+  #   image: davlum/localemr:v0.3.3
+  #   container_name: emr
+  #   environment:
+  #     - S3_ENDPOINT=http://s3:2000
+  #     - LOCALEMR_CONTAINER_NAME=emr
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  # s3:
+  #   container_name: s3
+  #   image: davlum/ros3:latest
+  #   volumes:
+  #     - ~/.aws:/root/.aws
+  #   environment:
+  #     - ROS3_PATH_TO_ALLOWLIST=/opt/ros3/allowlist.txt
+  #     - AWS_DEFAULT_REGION=us-east-1
+  #   ports:
+  #     - "2000:2000"
 
 volumes:
   postgres-db-volume:

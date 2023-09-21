@@ -7,16 +7,16 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      # mounting docker.sock file to allow docker-out-of-docker setup
-      - /var/run/docker.sock:/var/run/docker.sock
+      # mounting docker.sock file to allow docker-out-of-docker setup (Use if system is Ubuntu)
+      # - /var/run/docker.sock:/var/run/docker.sock
       # mounting current directory for development
       - ./:/opt/airflow/
       # mounting ssh to allow code pushing from the container
       - ${HOME}/.ssh:/home/airflow/.ssh
       # mounting aws credentials
-      - ${HOME}/.aws:/home/airflow/.aws
-      # adding certificate to avoid ssl issues while pulling pre-commit hooks
-      - /usr/local/share/ca-certificates/:/usr/local/share/ca-certificates/
+      # - ${HOME}/.aws:/home/airflow/.aws
+      # adding certificate to avoid ssl issues while pulling pre-commit hooks (Use if system is Ubuntu)
+      # - /usr/local/share/ca-certificates/:/usr/local/share/ca-certificates/
       # Adding user's git config
       - ${HOME}/.gitconfig:/home/airflow/.gitconfig:ro
     # overwriting entrypoint and command to use dev container setup.
