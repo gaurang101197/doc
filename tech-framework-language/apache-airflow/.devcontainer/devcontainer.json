@@ -9,10 +9,6 @@
         "../docker-compose.yaml",
         "docker-compose.yaml"
     ],
-    "remoteEnv": {
-        "NODE_OPTIONS": "--use-openssl-ca",
-        "NODE_EXTRA_CA_CERTS": "/usr/local/share/ca-certificates/PROXY-INT.crt"
-    },
     // The 'service' property is the name of the service for the container that VS Code should
     // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
     "service": "devcontainer",
