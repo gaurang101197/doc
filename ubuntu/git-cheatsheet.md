@@ -73,6 +73,14 @@ Or in one command, if $file is the file in question.
 git checkout $(git rev-list -n 1 HEAD -- "$file")^ -- "$file"
 ```
 
+## [How do I configure git to ignore some files locally?](https://stackoverflow.com/questions/1753070/how-do-i-configure-git-to-ignore-some-files-locally)
+
+The `.git/info/exclude` file has the same format as any `.gitignore` file.  
+**OR**  
+`git update-index --skip-worktree <file-list>`  
+Reverse it by:  
+`git update-index --no-skip-worktree <file-list>`
+
 
 ## References
 1. https://stackoverflow.com/questions/30590083/how-do-i-rename-both-a-git-local-and-remote-branch-name
