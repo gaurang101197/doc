@@ -2,34 +2,49 @@
 
 ```bash
 git cheery-pick commit-hash
+git stash list
+git stash pop stash@{1}
+git stash apply stash@{1}
+```
 
-# move head to specific commit
-# This will destroy any local modifications.
-# Don't do it if you have uncommitted work you want to keep.
-git reset --hard commit-hash
+## move head to specific commit
 
-# Alternatively, if there's work to keep:
+This will destroy any local modifications.  
+Don't do it if you have uncommitted work you want to keep.  
+`git reset --hard commit-hash`  
+
+Alternatively, if there's work to keep:  
+```bash
 git stash
 git reset --hard commit-hash
 git stash pop
+```
 
-# to create branch from commit
-git checkout -b old-state commit-hash
+## to create branch from commit
 
-# to checkout commit
-git checkout commit-hash
+`git checkout -b old-state commit-hash`
 
-# to checkout tag
-git checkout tags/<tag> -b <branch>
+## to checkout commit
+
+`git checkout commit-hash`
+
+## to checkout tag
+
+`git checkout tags/<tag> -b <branch>`
 
 
-# renaming local and remote branch
+## renaming local and remote branch
+
+```bash
 git checkout <old_name>
 git branch -m <new_name>
 git push <remote> <remote>/<old_name>:refs/heads/<new_name> :<old_name>
+```
 
 
-# merge two commits into one
+## merge two commits into one
+
+```bash
 git rebase --interactive HEAD~2
 ## pick b76d157 b
 ## pick a931ac7 c
@@ -43,18 +58,23 @@ git rebase --interactive HEAD~2
 ## b
 ## # This is the 2nd commit message:
 ## c
-
-
-# Removing the last commit
-git reset --hard HEAD^
-# remove last n commits
-git reset --hard HEAD~n
-# If you want to "uncommit" the commits, but keep the changes around for reworking
-git reset HEAD^ 
-
-# revert specific commit
-git revert commit-id
 ```
+
+## Removing the last commit
+
+`git reset --hard HEAD^`
+
+## remove last n commits
+
+`git reset --hard HEAD~n`
+
+## If you want to "uncommit" the commits, but keep the changes around for reworking
+
+`git reset HEAD^`
+
+## revert specific commit
+
+`git revert commit-id`
 
 ## [Remove a file from a Git repository without deleting it from the local filesystem](https://stackoverflow.com/questions/1143796/remove-a-file-from-a-git-repository-without-deleting-it-from-the-local-filesyste)
 ```bash
