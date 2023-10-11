@@ -200,3 +200,42 @@ k port-forward svc/kube-state-metrics 8081:8080 -n metric
 ```
 
 Access <http://localhost:8081/> in browser.
+
+## Advance
+
+### [kubectx + kubens](https://github.com/ahmetb/kubectx/)
+
+**kubectx** is a tool to switch between contexts (clusters) on kubectl faster.  
+**kubens** is a tool to switch between Kubernetes namespaces (and configure them for kubectl) easily.
+
+#### Installation Homebrew (macOS and Linux)
+
+```sh
+brew install kubectx
+```
+
+#### Examples
+
+```sh
+# switch to another cluster that's in kubeconfig
+$ kubectx minikube
+Switched to context "minikube".
+
+# switch back to previous cluster
+$ kubectx -
+Switched to context "oregon".
+
+# rename context
+$ kubectx dublin=gke_ahmetb_europe-west1-b_dublin
+Context "gke_ahmetb_europe-west1-b_dublin" renamed to "dublin".
+
+# change the active namespace on kubectl
+$ kubens kube-system
+Context "test" set.
+Active namespace is "kube-system".
+
+# go back to the previous namespace
+$ kubens -
+Context "test" set.
+Active namespace is "default".
+```
