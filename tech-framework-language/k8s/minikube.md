@@ -22,7 +22,11 @@ minikube update-check
 
 ## cheat sheet
 
+```bash
+minikube start -p cluster_name
 ```
+
+```bash
 Basic Commands:
   start            Starts a local Kubernetes cluster
   status           Gets the status of a local Kubernetes cluster
