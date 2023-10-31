@@ -101,6 +101,10 @@ The `.git/info/exclude` file has the same format as any `.gitignore` file.
 Reverse it by:  
 `git update-index --no-skip-worktree <file-list>`
 
+## Divergent branches
+
+<https://stackoverflow.com/questions/71768999/how-to-merge-when-you-get-error-hint-you-have-divergent-branches-and-need-to-s>
+
 
 ## References
 1. https://stackoverflow.com/questions/30590083/how-do-i-rename-both-a-git-local-and-remote-branch-name
